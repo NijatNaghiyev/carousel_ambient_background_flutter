@@ -15,13 +15,11 @@ class _MyHomeScreenState extends State<MyHomeScreen> {
   late final PageController pageController;
   late final ScrollController scrollController;
 
-
   @override
   void initState() {
     super.initState();
     pageController = PageController(viewportFraction: .9);
-    scrollController =
-        ScrollController();
+    scrollController = ScrollController();
   }
 
   @override
@@ -30,6 +28,8 @@ class _MyHomeScreenState extends State<MyHomeScreen> {
     scrollController.dispose();
     super.dispose();
   }
+
+  int maxLine = 3;
 
   @override
   Widget build(BuildContext context) {
@@ -76,6 +76,28 @@ class _MyHomeScreenState extends State<MyHomeScreen> {
 
                   //? MainItems
                   MainItems(size: size, pageController: pageController),
+
+                  ElevatedButton(
+                    onPressed: () {
+                      setState(() {
+                        maxLine = maxLine == 3 ? 9 : 3;
+                      });
+                    },
+                    child: const Text('Max Line'),
+                  ),
+                  TweenAnimationBuilder(
+                    tween: Tween<double>(begin: 10, end: 1),
+                    duration: const Duration(milliseconds: 3000),
+                    curve: Curves.bounceInOut,
+                    builder: (context, value, child) {
+                      return Text(
+                        'Welcome to My Home Screen' * 10,
+                        style: TextStyle(color: Colors.white, fontSize: 20),
+                        key: ValueKey(maxLine),
+                        maxLines: value.toInt(),
+                      );
+                    },
+                  ),
                 ],
               ),
             ],
